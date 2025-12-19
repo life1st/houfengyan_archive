@@ -2,10 +2,8 @@ const fs = require('fs/promises')
 
 const build = async () => {
   const articles = await fs.readdir('./article')
-  console.log(articles)
 
-  const links = articles.map((name) => `<p><a href="/article/${name}">${name}</a></p>`)
-  const html = `<!DOCTYPE html>
+  const rootIndex = `<!DOCTYPE html>
   <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -13,10 +11,11 @@ const build = async () => {
     <title>list</title>
   </head>
   <body>
-    ${links.join('\n')}
+    ${articles.map((name) => `<p><a href="article/${name}">${name}</a></p>`).join('\n')}
   </body>
   </html>`
-  await fs.writeFile('index.html', html, 'utf-8')
+
+  await fs.writeFile('index.html', rootIndex, 'utf-8')
 }
 
 build()
